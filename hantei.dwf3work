@@ -1,0 +1,149 @@
+function boinA(){
+for(var idx = 0; wait(1) && idx < 100000; idx++){
+    if(Scope1.Channel2.measure("Maximum") < 2.5){
+    var boinA = Scope1.Channel1.data;
+    /*var boinAA = Scope1.Channel1.fftfrequency;
+    for(var i = 0; i < boinA.length; i++) {
+           boinA[i]=boinA[i]*boinAA[i]}*/
+    return(boinA);
+    }else{
+    print("Put your finger at the photocell and say a-");}
+}}
+
+function boinI(){
+for(var idx = 0; wait(1) && idx < 100000; idx++){
+    if(Scope1.Channel2.measure("Maximum") < 2.5){
+    var boinI = Scope1.Channel1.data;
+    /*var boinII = Scope1.Channel1.fftfrequency;
+    for(var i = 0; i < boinI.length; i++) {
+           boinI[i]=boinI[i]*boinII[i]}*/
+    return(boinI);
+    }else{
+    print("Put your finger at the photocell and say i-");}
+}}
+
+function boinU(){
+for(var idx = 0; wait(1) && idx < 100000; idx++){
+    if(Scope1.Channel2.measure("Maximum") < 2.5){
+    var boinU = Scope1.Channel1.data;
+    /*var boinUU = Scope1.Channel1.fftfrequency;
+    for(var i = 0; i < boinU.length; i++) {
+           boinU[i]=boinU[i]*boinUU[i]}*/
+    return(boinU);
+    }else{
+    print("Put your finger at the photocell and say u-");}
+}}
+
+function boinE(){
+for(var idx = 0; wait(1) && idx < 100000; idx++){
+    if(Scope1.Channel2.measure("Maximum") < 2.5){
+    var boinE = Scope1.Channel1.data;
+    /*var boinEE = Scope1.Channel1.fftfrequency;
+    for(var i = 0; i < boinE.length; i++) {
+           boinE[i]=boinE[i]*boinEE[i]}*/
+    return(boinE);
+    }else{
+    print("Put your finger at the photocell and say e-");}
+}}
+
+function boinO(){
+for(var idx = 0; wait(1) && idx < 100000; idx++){
+    if(Scope1.Channel2.measure("Maximum") < 2.5){
+    var boinO = Scope1.Channel1.data;
+    /*var boinOO = Scope1.Channel1.fftfrequency;
+        for(var i = 0; i < boinO.length; i++) {
+           boinO[i]=boinO[i]*boinOO[i]}*/
+    return(boinO);
+    }else{
+    print("Put your finger at the photocell and say o-");}
+}}
+
+function boin(){
+for(var idx = 0; wait(1) && idx < 100000; idx++){
+    if(Scope1.Channel2.measure("Maximum") < 2.5){
+    var boin = Scope1.Channel1.data;
+    /*var boinboin = Scope1.Channel1.fftfrequency;
+    for(var i = 0; i < boin.length; i++) {
+           boin[i]=boin[i]*boinboin[i]}*/
+    return(boin);
+    }else{
+    print("Put your finger at the photocell and say something");}
+}}
+
+
+function doScopeWavegen(){
+
+    print("Running Scope and Wavegen script");
+    Scope1.Trigger.Trigger.text = "Repeated"
+    Scope1.Time.Base.value = 0.05;
+    Supplies.Output.PositiveSupply.Voltage.value = 3;
+    Wavegen1.Channel1.Mode.text = "Custom";
+    Wavegen1.Channel1.Custom.Offset.value = 3;
+    Wavegen1.Channel1.Custom.Frequency = 0 ;
+
+    Scope1.run();
+    Supplies.run();
+    Wavegen1.run();
+}
+
+function hantei(){
+
+boinA = boinA();
+print("wait 3sec");
+wait(3);
+boinI = boinI();
+print("wait 3sec");
+wait(3);
+boinU = boinU();
+print("wait 3sec");
+wait(3);
+boinE = boinE();
+print("wait 3sec");
+wait(3);
+boinO = boinO();
+print("wait 3sec");
+wait(3);
+boin = boin();
+print("wait 3sec");
+wait(3);
+
+var allA = 0;
+var allI = 0;
+var allU = 0;
+var allE = 0;
+var allO = 0;
+
+for(var i = 0; i < boin.length; i++) {
+    var A = boin[i] - boinA[i]
+    var I = boin[i] - boinI[i]
+    var U = boin[i] - boinU[i]
+    var E = boin[i] - boinE[i]
+    var O = boin[i] - boinO[i]
+    allA = allA + A*A;
+    allI = allI + I*I;
+    allU = allU + U*U;
+    allE = allE + E*E;
+    allO = allO + O*O;}
+var all = [allA,allI,allU,allE,allO];
+if(allA < allI && allA < allU && allA < allE && allA < allO){
+    return("you say A");}
+
+else if(allI < allU && allI < allE && allI < allO){
+    return("you say I");}
+
+else if(allU < allE && allU < allO){
+    return("you say U");}
+
+else if(allE < allO){
+    return("you say E");}
+
+else{
+    return(all);}
+}
+
+doScopeWavegen();
+print(hantei());
+Wavegen1.Channel1.Custom.Amplitude.value = 0;
+Wavegen1.stop();
+Scope1.stop();
+Supplies.stop();
